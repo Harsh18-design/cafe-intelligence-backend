@@ -16,6 +16,10 @@ const startServer = async () => {
   server.listen(env.port, "192.168.1.11", () => {
     logger.info(`Server running on http://192.168.1.11:${env.port}`);
   });
+
+  server.listen(env.port, () => {
+    logger.info(`Server running on port ${env.port}`);
+  });
 };
 
 startServer();
