@@ -51,7 +51,8 @@ const createOrder = async (cafeId, payload) => {
 
     if (distance > cafe.geoFence.radiusMeters) {
       throw new AppError(
-        `You are too far from the cafe to place this order. Distance: ${distance} meters`,
+        // `You are too far from the cafe to place this order. Distance: ${distance} meters`,
+        `You are too far from the cafe to place this order.`,
         403
       );
     }
