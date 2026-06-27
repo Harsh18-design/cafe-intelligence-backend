@@ -8,6 +8,7 @@ const dashboardRoutes = require("./modules/dashboard/dashboard.routes");
 const menuRoutes = require("./modules/menu/menu.routes");
 const orderRoutes = require("./modules/order/order.routes");
 const publicRoutes = require("./modules/public/public.routes");
+const feedbackRoutes = require("./modules/feedback/feedback.routes");
 const router = express.Router();
 
 router.use("/health", healthRoutes);
@@ -21,5 +22,5 @@ router.use("/dashboard", dashboardRoutes);
 router.use("/menu", menuRoutes);
 router.use("/orders", orderRoutes);
 router.use("/public", publicRoutes);
-
+router.use("/feedback", feedbackRoutes);
 module.exports = router;

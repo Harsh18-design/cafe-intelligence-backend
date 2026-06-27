@@ -42,7 +42,7 @@ const getPublicOrderStatus = async (orderId, trackingToken) => {
     trackingToken,
   })
     .select(
-      "orderNumber tableNumber customerName items subtotal finalAmount status statusChangedAt createdAt updatedAt cafeId"
+      "orderNumber tableNumber customerName mobileNumber visitId items subtotal finalAmount status statusChangedAt createdAt updatedAt cafeId"
     )
     .populate("cafeId", "cafeName address phoneNumber");
 };

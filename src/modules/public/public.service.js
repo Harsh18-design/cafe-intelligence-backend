@@ -4,6 +4,7 @@ const cafeRepository = require("../cafe/cafe.repository");
 const menuRepository = require("../menu/menu.repository");
 const orderService = require("../order/order.service");
 const orderRepository = require("../order/order.repository");
+const feedbackRepository = require("../feedback/feedback.repository");
 
 const getPublicMenu = async (cafeId) => {
   const cafe = await cafeRepository.findCafeById(cafeId);
@@ -48,7 +49,14 @@ const getOrderStatus = async (orderId, trackingToken) => {
     throw new AppError("Invalid tracking link", 403);
   }
 
-  return order;
+  const feedbackExists = await feedbackRepository.existsByOrderId(order._id);
+
+  const orderObj = order.toObject();
+
+  return {
+    ...orderObj,
+    feedbackSubmitted: !!feedbackExists,
+  };
 };
 
 module.exports = {
