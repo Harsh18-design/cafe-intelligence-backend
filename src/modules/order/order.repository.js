@@ -40,9 +40,11 @@ const getPublicOrderStatus = async (orderId, trackingToken) => {
   return Order.findOne({
     _id: orderId,
     trackingToken,
-  }).select(
-    "orderNumber tableNumber customerName items subtotal finalAmount status statusChangedAt createdAt updatedAt"
-  );
+  })
+    .select(
+      "orderNumber tableNumber customerName items subtotal finalAmount status statusChangedAt createdAt updatedAt cafeId"
+    )
+    .populate("cafeId", "cafeName address phoneNumber");
 };
 
 module.exports = {
