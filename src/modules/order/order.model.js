@@ -106,6 +106,20 @@ const orderSchema = new mongoose.Schema(
       ref: "Visit",
       default: null,
     },
+    customerLocation: {
+      latitude: {
+        type: Number,
+        default: null,
+      },
+      longitude: {
+        type: Number,
+        default: null,
+      },
+      distanceFromCafeMeters: {
+        type: Number,
+        default: null,
+      },
+    },
 
     status: {
       type: String,

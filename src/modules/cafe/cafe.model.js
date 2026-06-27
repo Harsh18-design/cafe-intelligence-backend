@@ -54,6 +54,26 @@ const cafeSchema = new mongoose.Schema(
       trim: true,
       default: null,
     },
+    geoFence: {
+      isEnabled: {
+        type: Boolean,
+        default: false,
+      },
+      latitude: {
+        type: Number,
+        default: null,
+      },
+      longitude: {
+        type: Number,
+        default: null,
+      },
+      radiusMeters: {
+        type: Number,
+        default: 200,
+        min: 50,
+        max: 1000,
+      },
+    },
 
     subscriptionPlan: {
       type: String,

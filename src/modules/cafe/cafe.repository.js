@@ -22,9 +22,24 @@ const findCafeById = async (id) => {
   return Cafe.findById(id);
 };
 
+const updateCafeGeoFence = async (cafeId, geoFence) => {
+  return Cafe.findByIdAndUpdate(
+    cafeId,
+    {
+      $set: {
+        geoFence,
+      },
+    },
+    {
+      new: true,
+    }
+  ).select("-password");
+};
+
 module.exports = {
   createCafe,
   findCafeByEmail,
   findCafeById,
   findCafeByPhoneNumber,
+  updateCafeGeoFence,
 };

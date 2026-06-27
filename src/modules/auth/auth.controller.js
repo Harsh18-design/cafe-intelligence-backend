@@ -20,8 +20,15 @@ const me = asyncHandler(async (req, res) => {
   return successResponse(res, "Profile fetched successfully", result, 200);
 });
 
+const updateGeoFence = asyncHandler(async (req, res) => {
+  const result = await authService.updateGeoFence(req.user, req.body);
+
+  return successResponse(res, "Geo fencing updated successfully", result, 200);
+});
+
 module.exports = {
   register,
   login,
   me,
+  updateGeoFence,
 };

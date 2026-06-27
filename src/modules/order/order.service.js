@@ -5,6 +5,8 @@ const AppError = require("../../common/utils/app-error.util");
 const menuRepository = require("../menu/menu.repository");
 const orderRepository = require("./order.repository");
 const visitService = require("../visit/visit.service");
+const cafeRepository = require("../cafe/cafe.repository");
+const { calculateDistanceInMeters } = require("../../common/utils/geo.util");
 
 const { getIO } = require("../../config/socket");
 
@@ -17,6 +19,50 @@ const generateTrackingToken = () => {
 };
 
 const createOrder = async (cafeId, payload) => {
+  const cafe = await cafeRepository.findCafeById(cafeId);
+
+  if (!cafe) {
+    throw new AppError("Cafe not found", 404);
+  }
+
+  let customerLocation = {
+    latitude: null,
+    longitude: null,
+    distanceFromCafeMeters: null,
+  };
+
+  if (cafe.geoFence?.isEnabled) {
+    const latitude = Number(payload.latitude);
+    const longitude = Number(payload.longitude);
+
+    if (Number.isNaN(latitude) || Number.isNaN(longitude)) {
+      throw new AppError(
+        "Location permission is required to place order from this cafe",
+        400
+      );
+    }
+
+    const distance = calculateDistanceInMeters(
+      cafe.geoFence.latitude,
+      cafe.geoFence.longitude,
+      latitude,
+      longitude
+    );
+
+    if (distance > cafe.geoFence.radiusMeters) {
+      throw new AppError(
+        `You are too far from the cafe to place this order. Distance: ${distance} meters`,
+        403
+      );
+    }
+
+    customerLocation = {
+      latitude,
+      longitude,
+      distanceFromCafeMeters: distance,
+    };
+  }
+
   let subtotal = 0;
   const items = [];
 
@@ -54,6 +100,7 @@ const createOrder = async (cafeId, payload) => {
     items,
     subtotal,
     finalAmount: subtotal,
+    customerLocation,
   });
 
   const io = getIO();

@@ -12,6 +12,9 @@ const registerSchema = Joi.object({
   phoneNumber: Joi.string().min(10).max(15).required(),
 
   address: Joi.string().min(3).max(300).required(),
+  latitude: Joi.number().optional(),
+  longitude: Joi.number().optional(),
+  radiusMeters: Joi.number().min(50).max(1000).optional(),
 
   gstNumber: Joi.string().allow(null, "").optional(),
 });

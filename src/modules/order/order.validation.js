@@ -7,6 +7,8 @@ const createOrderSchema = Joi.object({
 
   mobileNumber: Joi.string().min(10).max(15).required(),
   note: Joi.string().allow("", null).optional(),
+  latitude: Joi.number().optional(),
+  longitude: Joi.number().optional(),
 
   items: Joi.array()
     .items(

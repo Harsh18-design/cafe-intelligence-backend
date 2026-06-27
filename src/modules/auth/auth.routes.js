@@ -11,5 +11,6 @@ router.post("/register", validate(registerSchema), authController.register);
 
 router.post("/login", validate(loginSchema), authController.login);
 router.get("/me", authMiddleware, authController.me);
+router.patch("/geo-fence", authMiddleware, authController.updateGeoFence);
 
 module.exports = router;
